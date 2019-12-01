@@ -1,3 +1,7 @@
+import { config as configEnv } from 'dotenv';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+configEnv({ path: `./environments/${process.env.NODE_ENV}.env`});
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app';
 
