@@ -7,7 +7,6 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
   async getProfile( @Request() req ) {
-    console.log( req.user )
     return `Hello ${req.user.username}!`;
   }
 }
