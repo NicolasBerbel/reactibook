@@ -1,4 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
+import Timeline from '../Timeline';
+import CreatePost from '../CreatePost';
 import api from '../../services/api.service';
 
 const App: React.FC = () => {
@@ -69,7 +71,11 @@ const App: React.FC = () => {
       {!loading && (
         <>
           {user && (
+            <>
             <h1>Hello {user.username}!</h1>
+            <CreatePost />
+            <Timeline />
+            </>
           )}
           {!user && (
             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
