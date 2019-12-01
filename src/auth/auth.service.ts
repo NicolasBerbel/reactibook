@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 
@@ -13,15 +13,15 @@ export class AuthService {
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
     const isPasswordValid = await bcrypt.compare(pass, user.password);
-    if (user && isPasswordValid) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
+
+    if( !isPasswordValid ) throw new UnauthorizedException('Invalid password.')
+    
+    const { password, ...result } = user;
+    return result;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.username, id: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };

@@ -12,4 +12,5 @@ firebase.initializeApp({
 export class FirebaseService {
   db = firebase.database()
   users = this.db.ref('users');
+  posts = this.db.ref('posts');
 }
