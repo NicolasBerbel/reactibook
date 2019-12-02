@@ -40,25 +40,17 @@ export class PostsController {
   async createPost( @Request() req, @Body('content') content, @Body('privacy') privacy = 'friends' ) {
     if( !content ) return new BadRequestException('The post\'s "content" property is mandatory.')
 
-    const newPost = await this.postsService.createPost({
+    return this.postsService.createPost({
       author: req.user.id,
       content,
       privacy
     })
-    return newPost;
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
-  async updatePost( @Request() req, @Body('content') content, @Body('privacy') privacy, @Param('id') id ) {
-    if( !content ) throw new BadRequestException('The post\'s "content" property is mandatory.')
-    const payload : any = {
-      content,
-    };
-
-    if( privacy ) payload.privacy = privacy;
-
-    return this.postsService.updatePost(id, req.user.id, { content });
+  async updatePost( @Request() req, @Param('id') id, @Body() payload ) {
+    return this.postsService.updatePost(id, req.user.id, payload);
   }
 
   @UseGuards(AuthGuard('jwt'))
