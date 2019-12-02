@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
 import { IPost } from '../../store';
 
 export interface PostProps extends IPost {
-  onDelete: (post: IPost['id']) => void;
-  onUpdate: (post: IPost) => void;
+  updatePost: Function;
+  deletePost: Function;
 }
 
 export const Post: React.FC<PostProps> = props => {
+  const { deletePost, updatePost } = props;
   const [content, setContent] = useState(props.content);
   const [privacy, setPrivacy] = useState(props.privacy);
   const [isEditing, setIsEditing] = useState(false);
@@ -23,14 +23,12 @@ export const Post: React.FC<PostProps> = props => {
 
   const handleSave = async () => {
     setIsEditing(false);
-    const response = await api.put(`posts/${props.id}`, { content, privacy });
-    props.onUpdate(response.data);
+    updatePost({ id: props.id, content, privacy });
   }
 
   const handleDelete = async () => {
     if( !window.confirm(`Confirm delection of post: ${props.content}`) ) return;
-    await api.delete(`posts/${props.id}`);
-    props.onDelete(props.id);
+    deletePost( props.id );
   }
 
   return (
