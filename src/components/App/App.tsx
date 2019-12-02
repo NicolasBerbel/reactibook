@@ -1,9 +1,8 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import Timeline from '../Timeline';
-import CreatePost from '../CreatePost';
 import api from '../../services/api.service';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [token, setToken] = useState( localStorage.getItem('token') );
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
@@ -15,15 +14,21 @@ const App: React.FC = () => {
   useEffect(
     () => {
       if( token ) {
-        localStorage.setItem('token', token);
         const payload = token.split('.')[1];
-        const { username, id } = JSON.parse(atob(payload));
+        const { username, id, exp  } = JSON.parse(atob(payload));
+        if( exp * 1000 < new Date().getTime() ) {
+          setToken(null);
+          setUser(null);
+          return;
+        }
+        localStorage.setItem('token', token);
         setUser({
           username,
           id
         });
       } else {
         localStorage.removeItem('token')
+        setUser(null)
       }
 
       return () => {}
@@ -36,7 +41,7 @@ const App: React.FC = () => {
     setPasswordError('');
   }
 
-  const handleSubmit = async (e : FormEvent) => {
+  const handleLoginSubmit = async (e : FormEvent) => {
     e.preventDefault();
 
     //@ts-ignore
@@ -72,13 +77,13 @@ const App: React.FC = () => {
         <>
           {user && (
             <>
+            <button onClick={() => setToken(null)}>Logout</button>
             <h1>Hello {user.username}!</h1>
-            <CreatePost />
             <Timeline />
             </>
           )}
           {!user && (
-            <form onSubmit={handleSubmit} autoComplete="off" noValidate>
+            <form onSubmit={handleLoginSubmit} autoComplete="off" noValidate>
               <div>
                 <input
                   type="email"

@@ -1,18 +1,25 @@
 import React, { useState, FormEvent } from 'react';
 import api from '../../services/api.service';
+import { IPost } from '../Post';
 
-const CreatePost: React.FC = () => {
+export interface CreatePostProps {
+  onCreate: (p : IPost) => void;
+}
+
+export const CreatePost: React.FC<CreatePostProps> = props => {
   const [content, setContent] = useState('');
   const [privacy, setPrivacy] = useState('friends');
 
   const handleSubmit = async (e : FormEvent) => {
     e.preventDefault();
 
-    await api.post('posts', {
+    const response = await api.post('posts', {
       content,
       privacy
-    });
+    });    
     setContent('')
+
+    props.onCreate( response.data )
   }
   
   return (
