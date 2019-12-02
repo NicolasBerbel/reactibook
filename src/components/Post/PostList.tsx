@@ -1,5 +1,6 @@
 import React from 'react';
-import Post, { IPost } from './Post';
+import Post from './Post';
+import { IPost } from '../../store';
 
 export interface PostListProps {
   posts: IPost[];

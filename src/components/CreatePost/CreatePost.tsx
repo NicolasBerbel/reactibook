@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
-import api from '../../services/api.service';
-import { IPost } from '../Post';
+import api from '../../services/api';
+import { IPost } from '../../store';
 
 export interface CreatePostProps {
   onCreate: (p : IPost) => void;
@@ -10,13 +10,13 @@ export const CreatePost: React.FC<CreatePostProps> = props => {
   const [content, setContent] = useState('');
   const [privacy, setPrivacy] = useState('friends');
 
-  const handleSubmit = async (e : FormEvent) => {
+  const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const response = await api.post('posts', {
       content,
       privacy
-    });    
+    });
     setContent('')
 
     props.onCreate( response.data )

@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api.service';
-
-export interface IPost {
-  id: string;
-  author: string;
-  privacy: string;
-  createdAt: number;
-  updatedAt: number;
-  content: string;
-}
+import api from '../../services/api';
+import { IPost } from '../../store';
 
 export interface PostProps extends IPost {
-  onDelete: (p:IPost['id']) => void;
-  onUpdate: (p:IPost) => void;
+  onDelete: (post: IPost['id']) => void;
+  onUpdate: (post: IPost) => void;
 }
 
-export const Post: React.FC<PostProps> = (props) => {
+export const Post: React.FC<PostProps> = props => {
   const [content, setContent] = useState(props.content);
   const [privacy, setPrivacy] = useState(props.privacy);
   const [isEditing, setIsEditing] = useState(false);
@@ -38,7 +30,7 @@ export const Post: React.FC<PostProps> = (props) => {
   const handleDelete = async () => {
     if( !window.confirm(`Confirm delection of post: ${props.content}`) ) return;
     await api.delete(`posts/${props.id}`);
-    props.onDelete(props.id)
+    props.onDelete(props.id);
   }
 
   return (

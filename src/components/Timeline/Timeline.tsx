@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api.service';
-import { PostList, IPost } from '../Post';
+import { IPost } from '../../store';
+import { PostList } from '../Post';
 import CreatePost from '../CreatePost';
 
-const Timeline: React.FC = () => {
-  const [privacyFilter, setPrivacyFilter] = useState('friends');
-  const [posts, setPosts] = useState<IPost[]>([]);
+interface TimelineProps {
+  loading: boolean;
+  error: boolean;
+  posts: IPost[];
+  fetchPosts: Function;
+}
 
-  useEffect(() => {
-    api.get('posts').then( ({data}) => setPosts(data) );
-  }, []);
+const Timeline: React.FC<TimelineProps> = props => {
+  const { posts, fetchPosts } = props;
+  const [privacyFilter, setPrivacyFilter] = useState('friends');
+  // const [posts, setPosts] = useState<IPost[]>([]);
+  const setPosts = (...a : any[]) => {};
+
+  useEffect(() => fetchPosts(), [fetchPosts])
 
   return (
     <div>

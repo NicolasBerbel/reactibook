@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
-import Timeline from '../Timeline';
-import api from '../../services/api.service';
+import Timeline from '../Timeline/TimelineContainer';
+import api from '../../services/api';
 
 export const App: React.FC = () => {
   const [token, setToken] = useState( localStorage.getItem('token') );
@@ -11,30 +11,24 @@ export const App: React.FC = () => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState();
 
-  useEffect(
-    () => {
-      if( token ) {
-        const payload = token.split('.')[1];
-        const { username, id, exp  } = JSON.parse(atob(payload));
-        if( exp * 1000 < new Date().getTime() ) {
-          setToken(null);
-          setUser(null);
-          return;
-        }
-        localStorage.setItem('token', token);
-        setUser({
-          username,
-          id
-        });
-      } else {
-        localStorage.removeItem('token')
-        setUser(null)
+  useEffect(() => {
+    if( token ) {
+      const { username, id, exp  } = JSON.parse(atob(token.split('.')[1]));
+      if( exp * 1000 < new Date().getTime() ) {
+        setToken(null);
+        setUser(null);
+        return;
       }
-
-      return () => {}
-    },
-    [token],
-  )
+      localStorage.setItem('token', token);
+      setUser({
+        username,
+        id
+      });
+    } else {
+      localStorage.removeItem('token');
+      setUser(null);
+    }
+  }, [token])
 
   const clearErrors = () => {
     setUsernameError('');
