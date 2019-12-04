@@ -2,6 +2,7 @@ import React from 'react';
 import LoginForm from '../LoginForm/LoginFormContainer';
 import { IToken } from '../../store';
 import Timeline from '../Timeline/TimelineContainer';
+import AppTheme from './AppTheme';
 
 export interface AppProps {
   token: IToken | null;
@@ -10,7 +11,7 @@ export interface AppProps {
 
 export const App: React.FC<AppProps> = props => {
   return (
-    <div className="App">
+    <AppTheme>
       {props.token && (
         <>
           <button onClick={() => props.logout()}>Logout</button>
@@ -21,7 +22,7 @@ export const App: React.FC<AppProps> = props => {
       {!props.token && (
         <LoginForm />
       )}
-    </div>
+    </AppTheme>
   );
 }
 
