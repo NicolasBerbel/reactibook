@@ -23,6 +23,8 @@ const reducer = createReducer<AuthState, ActionType<typeof actions>>(INITIAL_STA
       ...state,
       loading: false,
       error: false,
+      usernameError: null,
+      passwordError: null,
       token,
     }
   })
