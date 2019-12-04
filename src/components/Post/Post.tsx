@@ -128,28 +128,22 @@ export const Post: React.FC<PostProps> = props => {
         />
         {props.medias && props.medias.length && <PostMedia medias={props.medias} />}
         <CardContent>
-          <Typography>
-            <Grid container alignItems="center" spacing={0}>
-            </Grid>
-          </Typography>
-          <div>
-            {!isEditing && (
-              <Typography component="div">
-                <ReactMarkdown source={props.content} />
-              </Typography>
-            )}
-            {isEditing && (
-              <TextField
-                variant="filled"
-                fullWidth
-                multiline
-                rowsMax="15"
-                value={content}
-                margin="normal"
-                onChange={e => setContent(e.target.value)}
-              />
-            )}
-          </div>
+          {!isEditing && (
+            <Typography component="div">
+              <ReactMarkdown source={props.content} />
+            </Typography>
+          )}
+          {isEditing && (
+            <TextField
+              variant="filled"
+              fullWidth
+              multiline
+              rowsMax="15"
+              value={content}
+              margin="normal"
+              onChange={e => setContent(e.target.value)}
+            />
+          )}
         </CardContent>
         <CardActions>
           {isEditing && (
