@@ -19,6 +19,7 @@ import { orange, green } from '@material-ui/core/colors';
 import PrivacySelect from '../PrivacySelect';
 import FriendsIcon from '@material-ui/icons/Group';
 import PublicIcon from '@material-ui/icons/Public';
+import ConfirmDeletion from './ConfirmDeletion';
 
 const privacySettings = {
   friends: {
@@ -58,6 +59,7 @@ export interface PostProps extends IPost {
 
 export const Post: React.FC<PostProps> = props => {
   const { deletePost, updatePost } = props;
+  const [deleteConfirmationOpen, setDeleteConfirmatonOpen] = useState(false);
   const [content, setContent] = useState(props.content);
   const [privacy, setPrivacy] = useState(props.privacy);
   const [isEditing, setIsEditing] = useState(false);
@@ -75,88 +77,95 @@ export const Post: React.FC<PostProps> = props => {
     setIsEditing(false);
   }
 
-  const handleSave = async () => {
+  const handleSave = () => {
     setIsEditing(false);
     updatePost({ id: props.id, content, privacy });
   }
 
-  const handleDelete = async () => {
-    if( !window.confirm(`Confirm deletion of post: \n\n ${props.content}`) ) return;
+  const handleDelete = () => {
     deletePost( props.id );
   }
 
+
   return (
-    <Card elevation={isEditing ? 5 : 2}>
-      <CardHeader
-        action={<PostActions onEdit={() => setIsEditing(true)} onDelete={handleDelete} />}
-        subheader={(
-          <>
-            <time title={momentDate.format('LLLL')}>
-              <strong>{isEdited ? 'Edited' : 'Created'} </strong>
-              {momentDate.from()}
-            </time>
-            <Grid container alignItems="center" spacing={2}>
-              {!isEditing && (
-                <>
-                  <Grid item>
-                    <Typography><strong>Visible to: </strong></Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container alignItems="center" spacing={0}>
-                      <PrivacyIcon fontSize="small" style={{marginRight: 8}} />
-                      {privacySettings[props.privacy].label}
+    <>
+      <Card elevation={isEditing ? 5 : 2}>
+        <CardHeader
+          action={<PostActions onEdit={() => setIsEditing(true)} onDelete={() => setDeleteConfirmatonOpen(true)} />}
+          subheader={(
+            <>
+              <time title={momentDate.format('LLLL')}>
+                <strong>{isEdited ? 'Edited' : 'Created'} </strong>
+                {momentDate.from()}
+              </time>
+              <Grid container alignItems="center" spacing={2}>
+                {!isEditing && (
+                  <>
+                    <Grid item>
+                      <Typography><strong>Visible to: </strong></Typography>
                     </Grid>
-                  </Grid>
-                </>
-              )}
-              {isEditing && (
-                <>
-                  <Grid item>
-                    <Typography><strong>Change privacy: </strong></Typography>
-                  </Grid>
-                  <Grid item>
-                    <PrivacySelect privacy={privacy} onChange={p => setPrivacy(p)} />
-                  </Grid>
-                </>
-              )}
+                    <Grid item>
+                      <Grid container alignItems="center" spacing={0}>
+                        <PrivacyIcon fontSize="small" style={{marginRight: 8}} />
+                        {privacySettings[props.privacy].label}
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
+                {isEditing && (
+                  <>
+                    <Grid item>
+                      <Typography><strong>Change privacy: </strong></Typography>
+                    </Grid>
+                    <Grid item>
+                      <PrivacySelect privacy={privacy} onChange={p => setPrivacy(p)} />
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+            </>
+          )}
+        />
+        {props.medias && props.medias.length && <PostMedia medias={props.medias} />}
+        <CardContent>
+          <Typography>
+            <Grid container alignItems="center" spacing={0}>
             </Grid>
-          </>
-        )}
-      />
-      {props.medias && <PostMedia medias={props.medias} />}
-      <CardContent>
-        <Typography>
-          <Grid container alignItems="center" spacing={0}>
-          </Grid>
-        </Typography>
-        <div>
-          {!isEditing && (
-            <Typography component="div">
-              <ReactMarkdown source={props.content} />
-            </Typography>
-          )}
+          </Typography>
+          <div>
+            {!isEditing && (
+              <Typography component="div">
+                <ReactMarkdown source={props.content} />
+              </Typography>
+            )}
+            {isEditing && (
+              <TextField
+                variant="filled"
+                fullWidth
+                multiline
+                rowsMax="15"
+                value={content}
+                margin="normal"
+                onChange={e => setContent(e.target.value)}
+              />
+            )}
+          </div>
+        </CardContent>
+        <CardActions>
           {isEditing && (
-            <TextField
-              variant="filled"
-              fullWidth
-              multiline
-              rowsMax="15"
-              value={content}
-              margin="normal"
-              onChange={e => setContent(e.target.value)}
-            />
+            <>
+              <SuccessButton startIcon={<SaveIcon />} size="small" color="primary" onClick={handleSave}>Save</SuccessButton>
+              <WarningButton startIcon={<CancelIcon />} size="small" onClick={handleCancel}>Cancel edition</WarningButton>
+            </>
           )}
-        </div>
-      </CardContent>
-      <CardActions>
-        {isEditing && (
-          <>
-            <SuccessButton startIcon={<SaveIcon />} size="small" color="primary" onClick={handleSave}>Save</SuccessButton>
-            <WarningButton startIcon={<CancelIcon />} size="small" onClick={handleCancel}>Cancel edition</WarningButton>
-          </>
-        )}
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
+      <ConfirmDeletion open={deleteConfirmationOpen} onClose={() => setDeleteConfirmatonOpen(false)} onConfirm={() => handleDelete()}>
+        <Typography component="div">
+          <ReactMarkdown source={props.content} />
+        </Typography>
+      </ConfirmDeletion>
+    </>
   )
 };
 
