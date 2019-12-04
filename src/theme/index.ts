@@ -32,5 +32,24 @@ const theme = createMuiTheme({
     }
   },
 });
+theme.overrides = theme.overrides || {};
+theme.overrides.MuiToolbar = {
+  gutters: {
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+  },
+  regular: {
+    minHeight: 64,
+    [theme.breakpoints.up('md')]: {
+      minHeight: 80,
+    },
+    [theme.breakpoints.up('lg')]: {
+      minHeight: 100,
+    },
+    [theme.breakpoints.up('xl')]: {
+      minHeight: 118,
+    }
+  },
+}
 
 export default theme;

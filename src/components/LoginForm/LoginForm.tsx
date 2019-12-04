@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
@@ -67,78 +66,76 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
   }
   
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography align="center" variant="h5">
-              Welcome to <Typography variant="h5" component="strong" color="secondary">Reactibook</Typography>
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography align="center" variant="subtitle2" paragraph>Please, login to continue.</Typography>
-          </Grid>
+    <Paper className={classes.paper}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography align="center" variant="h5">
+            Welcome to <Typography variant="h5" component="strong" color="secondary">Reactibook</Typography>
+          </Typography>
         </Grid>
-        {loading && (
-          <div>
-            Loading...
-          </div>
-        )}
-        {!loading && (
-          <form onSubmit={handleLoginSubmit} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <FormControl fullWidth className={classes.fieldControl} error={!!usernameError}>
-                  <InputLabel error={!!usernameError}>Email</InputLabel>
-                  <Input
-                    type="email"
-                    value={username}
-                    required
-                    onChange={e => setUsername(e.target.value)}
-                    autoComplete="username"
-                    //@ts-ignore
-                    onInvalid={ e => setUsernameError(e.target.validationMessage)}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    }
-                  />
-                  {usernameError && <FormHelperText error>{usernameError}</FormHelperText>}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth className={classes.fieldControl} error={!!passwordError}>
-                  <InputLabel error={!!passwordError}>Password</InputLabel>
-                  <Input
-                    type="password"
-                    value={password}
-                    required
-                    onChange={e => setPassword(e.target.value)}
-                    autoComplete="current-password"
-                    //@ts-ignore
-                    onInvalid={ e => setPasswordError(e.target.validationMessage)}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <LockIcon />
-                      </InputAdornment>
-                    }
-                  />
-                  {passwordError && <FormHelperText error>{passwordError}</FormHelperText>}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  disabled={!username || !password}
-                >Login</Button>
-              </Grid>
+        <Grid item xs={12}>
+          <Typography align="center" variant="subtitle2" paragraph>Please, login to continue.</Typography>
+        </Grid>
+      </Grid>
+      {loading && (
+        <div>
+          Loading...
+        </div>
+      )}
+      {!loading && (
+        <form onSubmit={handleLoginSubmit} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth className={classes.fieldControl} error={!!usernameError}>
+                <InputLabel error={!!usernameError}>Email</InputLabel>
+                <Input
+                  type="email"
+                  value={username}
+                  required
+                  onChange={e => setUsername(e.target.value)}
+                  autoComplete="username"
+                  //@ts-ignore
+                  onInvalid={ e => setUsernameError(e.target.validationMessage)}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+                />
+                {usernameError && <FormHelperText error>{usernameError}</FormHelperText>}
+              </FormControl>
             </Grid>
-          </form>
-        )}
-      </Paper>
-    </Container>
+            <Grid item xs={12}>
+              <FormControl fullWidth className={classes.fieldControl} error={!!passwordError}>
+                <InputLabel error={!!passwordError}>Password</InputLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  required
+                  onChange={e => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                  //@ts-ignore
+                  onInvalid={ e => setPasswordError(e.target.validationMessage)}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <LockIcon />
+                    </InputAdornment>
+                  }
+                />
+                {passwordError && <FormHelperText error>{passwordError}</FormHelperText>}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                fullWidth
+                disabled={!username || !password}
+              >Login</Button>
+            </Grid>
+          </Grid>
+        </form>
+      )}
+    </Paper>
   );
 }
 

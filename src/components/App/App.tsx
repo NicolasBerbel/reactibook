@@ -1,4 +1,5 @@
 import React from 'react';
+import { Layout, LoginLayout } from '../Layout';
 import LoginForm from '../LoginForm/LoginFormContainer';
 import { IToken } from '../../store';
 import Timeline from '../Timeline/TimelineContainer';
@@ -12,16 +13,16 @@ export interface AppProps {
 export const App: React.FC<AppProps> = props => {
   return (
     <AppTheme>
-      {props.token && (
-        <>
-          <button onClick={() => props.logout()}>Logout</button>
-          <h1>Hello {props.token.username}!</h1>
-          <Timeline />
-        </>
-      )}
-      {!props.token && (
-        <LoginForm />
-      )}
+        {props.token && (
+          <Layout>
+            <Timeline />
+          </Layout>
+        )}
+        {!props.token && (
+          <LoginLayout>
+            <LoginForm />
+          </LoginLayout>
+        )}
     </AppTheme>
   );
 }
