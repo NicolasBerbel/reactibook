@@ -10,7 +10,6 @@ api.interceptors.request.use(config => {
   if( token ) {
     config.headers.Authorization = `Bearer ${token.raw}`;
   } else if ( config.url !== 'auth/login' ) {
-    console.log( config.url )
     store.dispatch(logout.request());
   }
   return config;

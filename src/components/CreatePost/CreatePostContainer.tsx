@@ -1,17 +1,21 @@
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import CreatePost from './CreatePost';
-import { ApplicationState, createPost } from '../../store';
+import { ApplicationState, createPost, uploadMedia, clearUploadedMedias } from '../../store';
 
-const mapStateToProps = ( { posts } : ApplicationState) => ({
+const mapStateToProps = ( { posts, media } : ApplicationState) => ({
   loading: posts.loading,
   error: posts.error,
-  posts: posts.data,
+  mediaUploadError: media.error,
+  mediaUploadLoading: media.loading,
+  uploadedMedias: media.uploadedMedias,
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => {
   return bindActionCreators({
-    createPost: createPost.request
+    clearUploadedMedias,
+    createPost: createPost.request,
+    uploadMedia: uploadMedia.request,
   }, dispatch)
 };
 

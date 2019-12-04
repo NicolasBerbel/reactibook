@@ -1,4 +1,5 @@
 import { all, takeLatest } from 'redux-saga/effects';
+import { uploadMediaSaga, MediaActions } from './media';
 import { loginSaga, logoutSaga, AuthActions } from './auth';
 import {
   fetchPostsSaga,
@@ -16,5 +17,6 @@ export default function* rootSaga() {
     takeLatest(PostsActions.CREATE_REQUEST, createPostSaga),
     takeLatest(PostsActions.DELETE_REQUEST, deletePostSaga),
     takeLatest(PostsActions.UPDATE_REQUEST, updatePostSaga),
+    takeLatest(MediaActions.UPLOAD_REQUEST, uploadMediaSaga),
   ]);
 }

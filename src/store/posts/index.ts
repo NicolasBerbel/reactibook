@@ -8,7 +8,6 @@ const INITIAL_STATE: PostsState = {
   loading: false,
 };
 
-
 const reducer = createReducer<PostsState, ActionType<typeof actions>>(INITIAL_STATE)
   .handleAction(actions.fetchPosts.request, (state) => ({
     ...state,

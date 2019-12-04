@@ -27,7 +27,7 @@ export const Post: React.FC<PostProps> = props => {
   }
 
   const handleDelete = async () => {
-    if( !window.confirm(`Confirm delection of post: ${props.content}`) ) return;
+    if( !window.confirm(`Confirm deletion of post: ${props.content}`) ) return;
     deletePost( props.id );
   }
 
@@ -60,6 +60,11 @@ export const Post: React.FC<PostProps> = props => {
           <textarea value={content} onChange={e => setContent(e.target.value)} />
         )}
       </div>
+      {props.medias && !!props.medias.length && (
+        <div>
+          {props.medias.map( (url, i) => <img key={i} src={url} alt='Post media!' />)}
+        </div>
+      )}
       {!isEditing && (
         <>
           <button onClick={() => setIsEditing(true)}>Edit</button>

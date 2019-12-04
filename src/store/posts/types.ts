@@ -1,3 +1,5 @@
+import { IMedia } from '../media/types';
+
 /**
  * Action types
  */
@@ -26,6 +28,7 @@ export interface IPost {
   createdAt: number;
   updatedAt: number;
   content: string;
+  medias?: IMedia['url'][]
 }
 
 /**
@@ -40,6 +43,7 @@ export interface PostsState {
 export interface CreatePostPayload {
   content: IPost['content'];
   privacy: IPost['privacy'];
+  medias?: IPost['medias'];
 }
 
 export interface UpdatePostPayload {

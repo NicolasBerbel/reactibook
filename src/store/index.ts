@@ -1,18 +1,21 @@
 import { combineReducers, compose, createStore, applyMiddleware, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import posts, { PostsState } from './posts'
+import media, { MediaState } from './media'
 import auth, { AuthState } from './auth'
 import rootSaga from './rootSaga';
-
-const rootReducer = combineReducers({
-  posts,
-  auth,
-});
 
 export interface ApplicationState {
   posts: PostsState,
   auth: AuthState,
+  media: MediaState
 };
+
+const rootReducer = combineReducers<ApplicationState>({
+  posts,
+  auth,
+  media,
+});
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,3 +28,4 @@ sagaMiddleware.run(rootSaga);
 export default store;
 export * from './posts';
 export * from './auth';
+export * from './media';
