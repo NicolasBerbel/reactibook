@@ -37,13 +37,13 @@ export class PostsController {
   
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  async createPost( @Request() req, @Body('content') content, @Body('privacy') privacy = 'friends' ) {
-    if( !content ) return new BadRequestException('The post\'s "content" property is mandatory.')
+  async createPost( @Request() req, @Body() payload ) {
+    if( !payload.content ) return new BadRequestException('The post\'s "content" property is mandatory.')
+    if( !payload.privacy ) payload.privacy = 'friends'
 
     return this.postsService.createPost({
       author: req.user.id,
-      content,
-      privacy
+      ...payload
     })
   }
 
