@@ -24,7 +24,7 @@ export enum PostsActions {
 export interface IPost {
   id: string;
   author: string;
-  privacy: string;
+  privacy: 'friends' | 'public';
   createdAt: number;
   updatedAt: number;
   content: string;

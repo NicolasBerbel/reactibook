@@ -20,7 +20,7 @@ const theme = createMuiTheme({
       color: 'secondary'
     },
     MuiButtonBase: {
-      disableRipple: true,
+      // disableRipple: true,
     },
     MuiIcon: {
       fontSize: 'small'

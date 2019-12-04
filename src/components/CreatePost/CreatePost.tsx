@@ -1,32 +1,22 @@
-import React, { useState, FormEvent } from 'react';
-import { createPost, uploadMedia, MediaState, clearUploadedMedias } from '../../store';
+import React, { useState, useEffect, FormEvent } from 'react';
+import { IPost, createPost, uploadMedia, MediaState, clearUploadedMedias } from '../../store';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import ImageIcon from '@material-ui/icons/Image';
-import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import FriendsIcon from '@material-ui/icons/Group';
-import PublicIcon from '@material-ui/icons/Public';
+import PrivacySelect from '../PrivacySelect';
 
 const useStyles = makeStyles( theme => ({
   root: {
     padding: theme.spacing(3)
   },
-  selectIcon: {
-    marginRight: theme.spacing(1)
-  },
-  
   input: {
     '& .MuiInput-root': {
       marginBottom: 16,
@@ -63,9 +53,14 @@ export interface CreatePostProps {
 export const CreatePost: React.FC<CreatePostProps> = props => {
   const classes = useStyles();
   const { createPost, uploadMedia, uploadedMedias, clearUploadedMedias, uploadingMedias } = props;
+  const [elevation, setElevation] = useState(2);
   const [content, setContent] = useState('');
-  const [privacy, setPrivacy] = useState('friends');
+  const [privacy, setPrivacy] = useState<IPost['privacy']>('friends');
   const [files, setFiles] = useState<File[] | null>( null );
+
+  useEffect(() => {
+    setElevation(!content ? 2 : 5 );
+  }, [content])
 
   const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,7 +76,7 @@ export const CreatePost: React.FC<CreatePostProps> = props => {
   }
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={elevation}>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -91,6 +86,8 @@ export const CreatePost: React.FC<CreatePostProps> = props => {
               fullWidth
               value={content}
               onChange={e => setContent(e.target.value)}
+              onBlur={() => !!content ? setElevation(5) : setElevation(2)}
+              onFocus={() => setElevation(5)}
               rowsMax="15"
               rows="4"
               placeholder="How are you feeling today?"
@@ -151,26 +148,10 @@ export const CreatePost: React.FC<CreatePostProps> = props => {
                 <InputLabel htmlFor="create-post-privacy-select">Visible to: </InputLabel>
               </Grid>
               <Grid item xs="auto">
-                <FormControl>
-                  <Select
-                    id="create-post-privacy-select"
-                    value={privacy}
-                    onChange={e => typeof e.target.value === 'string' && setPrivacy(e.target.value)}
-                    input={<InputBase />}
-                  >
-                    <MenuItem value="friends">
-                      <ListItemIcon className={classes.selectIcon}><FriendsIcon fontSize="small" /></ListItemIcon>
-                      <Typography variant="inherit">Friends</Typography>
-                    </MenuItem>
-                    <MenuItem value="public">
-                      <ListItemIcon className={classes.selectIcon}><PublicIcon fontSize="small" /></ListItemIcon>
-                      <Typography variant="inherit">Public</Typography>
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                <PrivacySelect privacy={privacy} onChange={privacy => setPrivacy(privacy)}/>
               </Grid>
               <Grid item xs="auto">
-                <Button type="submit" disabled={!content}>Publish</Button>
+                <Button type="submit" disabled={!content || !!uploadingMedias}>Publish</Button>
               </Grid>
             </Grid>
           </Grid>

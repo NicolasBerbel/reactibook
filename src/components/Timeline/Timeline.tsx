@@ -12,10 +12,15 @@ import PublicIcon from '@material-ui/icons/Public';
 
 const useStyles = makeStyles( theme => ({
   bar: {
+    borderRadius: theme.shape.borderRadius,
+    overflow: 'hidden',
     top: 40 + theme.spacing(2),
     [theme.breakpoints.up('md')]: {
       top: 60 + theme.spacing(2),
     },
+  },
+  postList: {
+    marginTop: theme.spacing(1)
   }
 }))
 
@@ -53,7 +58,7 @@ const Timeline: React.FC<TimelineProps> = props => {
             <Tab value="public" label="Public" icon={<PublicIcon />} />
           </Tabs>
         </AppBar>
-        <PostList posts={posts.filter( p => p.privacy === privacyFilter)} />
+        <PostList className={classes.postList} posts={posts.filter( p => p.privacy === privacyFilter)} />
       </Grid>
     </Grid>
   );

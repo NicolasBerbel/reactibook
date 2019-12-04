@@ -1,24 +1,26 @@
 import React from 'react';
 import Post from './PostContainer';
 import { IPost } from '../../store';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 export interface PostListProps {
+  className?: string;
   posts: IPost[];
 }
 
 export const PostList : React.FC<PostListProps> = props => {
   return (
-    <div>
+    <Grid container spacing={2} className={props.className}>
       {!!props.posts.length && props.posts.map((post : IPost, i) => (
-        <Post
-          key={post.id}
-          {...post}
-        />
+        <Grid key={post.id} item xs={12}>
+          <Post {...post} />
+        </Grid>
       ))}
       {!props.posts.length && (
-        <p>No posts found.</p>
+        <Typography>No posts found.</Typography>
       )}
-    </div>
+    </Grid>
   )
 };
 
