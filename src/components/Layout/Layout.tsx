@@ -18,7 +18,7 @@ export const Layout : React.FC = props => {
     <div>
       <Header />
       <div className={classes.toolbar} />
-      <Container component="main" maxWidth="xl">
+      <Container component="main" maxWidth="sm">
         { props.children }
       </Container>
     </div>

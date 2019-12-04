@@ -7,11 +7,11 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#00BCD4',
+      contrastText: '#fff'
     },
   },
   props: {
-    MuiInputLabel: {
-    },
+    MuiInputLabel: {},
     MuiButton: {
       variant: 'contained',
       color: 'primary'
@@ -23,7 +23,7 @@ const theme = createMuiTheme({
       disableRipple: true,
     },
     MuiIcon: {
-      fontSize: 'inherit'
+      fontSize: 'small'
     },
     MuiListItemText: {
       primaryTypographyProps: {
@@ -33,21 +33,43 @@ const theme = createMuiTheme({
   },
 });
 theme.overrides = theme.overrides || {};
+
+theme.overrides.MuiInputBase = {
+  input: {
+    paddingLeft: theme.spacing(1)
+  }
+};
+
+theme.overrides.MuiListItemIcon = {
+  root: {
+    minWidth: 'initial',
+  }
+};
+
+theme.overrides.MuiSelect = {
+  root: {
+    display: 'inline-flex',
+  }
+};
+
 theme.overrides.MuiToolbar = {
   gutters: {
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
   },
   regular: {
-    minHeight: 64,
+    minHeight: 40,
+    [theme.breakpoints.up('sm')]: {
+      minHeight: 40,
+    },
     [theme.breakpoints.up('md')]: {
-      minHeight: 80,
+      minHeight: 60,
     },
     [theme.breakpoints.up('lg')]: {
-      minHeight: 100,
+      minHeight: 60,
     },
     [theme.breakpoints.up('xl')]: {
-      minHeight: 118,
+      minHeight: 60,
     }
   },
 }

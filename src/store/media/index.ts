@@ -15,7 +15,7 @@ const reducer = createReducer<MediaState, ActionType<typeof actions>>(INITIAL_ST
     ...state,
     loading: false,
     error: false,
-    uploadedMedias: data,
+    uploadedMedias: [...state.uploadedMedias, ...data],
   }))
   .handleAction(actions.uploadMedia.failure, (state) => ({
     ...state,

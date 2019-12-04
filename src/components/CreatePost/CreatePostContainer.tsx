@@ -9,6 +9,7 @@ const mapStateToProps = ( { posts, media } : ApplicationState) => ({
   mediaUploadError: media.error,
   mediaUploadLoading: media.loading,
   uploadedMedias: media.uploadedMedias,
+  uploadingMedias: media.loading,
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => {

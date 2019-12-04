@@ -30,5 +30,5 @@ export interface MediaState {
 }
 
 export interface UploadMediaPayload {
-  files: FileList;
+  files: File[];
 }
