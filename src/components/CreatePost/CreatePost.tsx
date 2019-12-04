@@ -3,7 +3,6 @@ import { createPost, uploadMedia, MediaState, clearUploadedMedias } from '../../
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import FriendsIcon from '@material-ui/icons/Group';
 import Grid from '@material-ui/core/Grid';
 import ImageIcon from '@material-ui/icons/Image';
 import InputBase from '@material-ui/core/InputBase';
@@ -11,13 +10,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
-import PublicIcon from '@material-ui/icons/Public';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import FriendsIcon from '@material-ui/icons/Group';
+import PublicIcon from '@material-ui/icons/Public';
 
 const useStyles = makeStyles( theme => ({
   root: {
@@ -113,7 +113,7 @@ export const CreatePost: React.FC<CreatePostProps> = props => {
                   uploadMedia({ files: [...e.target.files] });
                 }}
                 inputProps={{
-                  multiple: "true",
+                  multiple: true,
                 }}
                 InputProps={{
                   startAdornment: (

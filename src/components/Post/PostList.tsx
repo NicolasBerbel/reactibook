@@ -11,7 +11,7 @@ export const PostList : React.FC<PostListProps> = props => {
     <div>
       {!!props.posts.length && props.posts.map((post : IPost, i) => (
         <Post
-          key={i}
+          key={post.id}
           {...post}
         />
       ))}
