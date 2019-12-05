@@ -4,7 +4,7 @@ import Header from './Header';
 import { ApplicationState, logout } from '../../store';
 
 const mapStateToProps = ( { auth } : ApplicationState) => ({
-  token: auth.token,
+  user: auth.user,
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => {

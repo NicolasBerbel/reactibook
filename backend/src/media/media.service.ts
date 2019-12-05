@@ -4,6 +4,7 @@ import {
   BadRequestException,
   NotFoundException
 } from '@nestjs/common';
+import * as sharp from 'sharp';
 import { FirebaseService } from '../firebase';
 
 @Injectable()
@@ -20,8 +21,20 @@ export class MediaService {
       throw new BadRequestException('Only image files are allowed!');
     }
 
+    let buffer;
+    try {
+      buffer = await sharp(file.buffer)
+        .resize({
+          width: 800,
+        })
+        .toBuffer()
+    } catch( e ) {
+      console.error(e);
+      throw new BadRequestException('Only image files are allowed!');
+    }
+
     const newMediaId = this.firebaseService.media.push().key;
-    const bucketUrl = await this.uploadToBucket( newMediaId, file );
+    const bucketUrl = await this.uploadToBucket( newMediaId, file, buffer );
     const timestamp = new Date().getTime();
     const newMedias = {
       [newMediaId]: {
@@ -44,8 +57,8 @@ export class MediaService {
     }
   }
 
-  uploadToBucket( id, file ) {
-    const { originalname, mimetype, buffer, size } = file;
+  uploadToBucket( id, file, buffer ) {
+    const { originalname, mimetype, size } = file;
     return new Promise((resolve, reject) => {
       if (!file) reject('No image file');
 
@@ -56,7 +69,10 @@ export class MediaService {
         public: true,
       });
   
-      stream.on('error', (error) => reject('Something is wrong! Unable to upload at the moment.'));
+      stream.on('error', (error) => {
+        console.log( error );
+        reject('Something is wrong! Unable to upload at the moment.')
+      });
       stream.on('finish', () => resolve(bucketFile.metadata.mediaLink));
       stream.end(buffer);
     });
