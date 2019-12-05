@@ -126,7 +126,7 @@ export const Post: React.FC<PostProps> = props => {
             </>
           )}
         />
-        {props.medias && props.medias.length && <PostMedia medias={props.medias} />}
+        {props.medias && !!props.medias.length && <PostMedia medias={props.medias} />}
         <CardContent>
           {!isEditing && (
             <Typography component="div">

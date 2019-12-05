@@ -20,23 +20,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^6.7.2",
-    "@nestjs/core": "^6.7.2",
-    "@nestjs/jwt": "^6.1.1",
-    "@nestjs/passport": "^6.1.1",
-    "@nestjs/platform-express": "^6.10.5",
-    "bcrypt": "^3.0.7",
-    "dotenv": "^8.2.0",
-    "firebase-admin": "^8.8.0",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.0",
-    "rxjs": "^6.5.3",
-    "uuid": "^3.3.3"
-  },
-  "devDependencies": {
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.7.1",
@@ -55,7 +38,25 @@
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "@nestjs/common": "^6.7.2",
+    "@nestjs/core": "^6.7.2",
+    "@nestjs/jwt": "^6.1.1",
+    "@nestjs/passport": "^6.1.1",
+    "@nestjs/platform-express": "^6.10.5",
+    "@nestjs/serve-static": "^1.0.2",
+    "bcrypt": "^3.0.7",
+    "dotenv": "^8.2.0",
+    "firebase-admin": "^8.8.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.0",
+    "rxjs": "^6.5.3",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
   },
   "jest": {
     "moduleFileExtensions": [

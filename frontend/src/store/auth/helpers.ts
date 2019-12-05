@@ -3,7 +3,10 @@ import { IToken } from './types';
 export const parseToken = (raw : string | null) : IToken | null => {
   if( !raw ) return null;
 
-  const parsedToken = JSON.parse(atob(raw.split('.')[1]));
+  let parsedToken;
+  try {
+    parsedToken = JSON.parse(atob(raw.split('.')[1]));
+  } catch (error) {return null}
 
   return {
     raw,
