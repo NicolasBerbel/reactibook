@@ -12,7 +12,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
 
-
 @Controller('media')
 export class MediaController {
   

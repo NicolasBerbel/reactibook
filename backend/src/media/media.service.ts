@@ -7,6 +7,8 @@ import {
 import * as sharp from 'sharp';
 import { FirebaseService } from '../firebase';
 
+export type Media = any;
+
 @Injectable()
 export class MediaService {
   bucket = this.firebaseService.bucket;
@@ -78,10 +80,10 @@ export class MediaService {
     });
   }
 
-  async getMedia(id: string) {
+  async getMedia(id: string) : Promise<Media | undefined> {
     return new Promise((resolve, reject) => {
-      const query = this.firebaseService.users.orderByChild('id').equalTo(id);
-      
+      const query = this.firebaseService.media.orderByKey().equalTo(id);
+
       query.once('value', snapshot => {
         if( !snapshot.exists() ) return reject(new NotFoundException(`Media "${id}" does not exist.`));
 

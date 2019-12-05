@@ -13,13 +13,11 @@ export interface AppProps {
 }
 
 export const App: React.FC<AppProps> = props => {
-  const {user, token, getAuthUser} = props; 
+  const {token, getAuthUser} = props; 
 
   useEffect(() => {
-    if( !!token && !user ) {
-      getAuthUser();
-    }
-  }, [token, user, getAuthUser])
+    getAuthUser();
+  }, [token, getAuthUser])
 
   return (
     <AppTheme>
