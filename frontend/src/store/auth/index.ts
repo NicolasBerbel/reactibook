@@ -1,10 +1,11 @@
 import { createReducer, ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 import { AuthState } from './types';
-import { validateToken, parseToken } from './helpers';
+import { validateUser, validateToken, parseToken } from './helpers';
 
 const INITIAL_STATE: AuthState = {
   token: validateToken(),
+  user: validateUser(),
   error: false,
   passwordError: null,
   usernameError: null,
@@ -12,16 +13,26 @@ const INITIAL_STATE: AuthState = {
 };
 
 const reducer = createReducer<AuthState, ActionType<typeof actions>>(INITIAL_STATE)
+  .handleAction(actions.getAuthUser.request, state => ({
+    ...state,
+    loading: true,
+  }))
+  .handleAction(actions.getAuthUser.success, ( state, { payload } ) => ({
+    ...state,
+    loading: false,
+    user: payload
+  }))
   .handleAction(actions.login.request, (state) => ({
     ...state,
     loading: true,
   }))
   .handleAction(actions.login.success, (state, { payload }) => {
-    const token = parseToken(payload);
-
+    const token = parseToken(payload.token);
+    
     return {
       ...state,
       loading: false,
+      user: payload.user,
       error: false,
       usernameError: null,
       passwordError: null,
@@ -49,6 +60,7 @@ const reducer = createReducer<AuthState, ActionType<typeof actions>>(INITIAL_STA
   .handleAction(actions.logout.success, (state) => ({
     ...state,
     token: null,
+    user: null,
     loading: false,
   }));
 

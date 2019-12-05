@@ -1,6 +1,11 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import { uploadMediaSaga, MediaActions } from './media';
-import { loginSaga, logoutSaga, AuthActions } from './auth';
+import {
+  getAuthUserSaga,
+  loginSaga,
+  logoutSaga,
+  AuthActions
+} from './auth';
 import {
   fetchPostsSaga,
   createPostSaga,
@@ -11,6 +16,7 @@ import {
 
 export default function* rootSaga() {
   return yield all([
+    takeLatest(AuthActions.GET_AUTH_USER_REQUEST, getAuthUserSaga),
     takeLatest(AuthActions.LOGIN_REQUEST, loginSaga),
     takeLatest(AuthActions.LOGOUT_REQUEST, logoutSaga),
     takeLatest(PostsActions.FETCH_REQUEST, fetchPostsSaga),

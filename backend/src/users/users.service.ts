@@ -8,9 +8,9 @@ export class UsersService {
   
   constructor(private readonly firebaseService : FirebaseService) {}
 
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(username: string, field: string = 'username'): Promise<User | undefined> {
     return new Promise((resolve, reject) => {
-      const query = this.firebaseService.users.orderByChild('username').equalTo(username);
+      const query = this.firebaseService.users.orderByChild(field).equalTo(username);
       
       query.once('value', snapshot => {
         if( !snapshot.exists() ) return reject(new NotFoundException(`User "${username}" is not registered.`));

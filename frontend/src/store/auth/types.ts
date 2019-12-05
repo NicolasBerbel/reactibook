@@ -2,6 +2,9 @@
  * Action types
  */
 export enum AuthActions {
+  GET_AUTH_USER_REQUEST = '@auth/GET_AUTH_USER_REQUEST',
+  GET_AUTH_USER_SUCCESS = '@auth/GET_AUTH_USER_SUCCESS',
+  GET_AUTH_USER_FAILURE = '@auth/GET_AUTH_USER_FAILURE',
   LOGIN_REQUEST = '@auth/LOGIN_REQUEST',
   LOGIN_SUCCESS = '@auth/LOGIN_SUCCESS',
   LOGIN_FAILURE = '@auth/LOGIN_FAILURE',
@@ -21,11 +24,19 @@ export interface IToken {
   raw: string;
 }
 
+export interface IUser {
+  id: string;
+  username: string;
+  friends?: string[];
+  avatar?: string;
+}
+
 /**
  * State type
  */
 export interface AuthState {
   readonly token: IToken | null;
+  readonly user: IUser | null;
   readonly loading: boolean;
   readonly error: boolean;
   readonly passwordError: string | null;

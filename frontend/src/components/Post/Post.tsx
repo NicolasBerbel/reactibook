@@ -145,14 +145,12 @@ export const Post: React.FC<PostProps> = props => {
             />
           )}
         </CardContent>
-        <CardActions>
           {isEditing && (
-            <>
+            <CardActions>
               <SuccessButton startIcon={<SaveIcon />} size="small" color="primary" onClick={handleSave}>Save</SuccessButton>
               <WarningButton startIcon={<CancelIcon />} size="small" onClick={handleCancel}>Cancel edition</WarningButton>
-            </>
+            </CardActions>
           )}
-        </CardActions>
       </Card>
       <ConfirmDeletion open={deleteConfirmationOpen} onClose={() => setDeleteConfirmatonOpen(false)} onConfirm={() => handleDelete()}>
         <Typography component="div">
