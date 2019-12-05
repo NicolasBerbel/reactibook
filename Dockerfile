@@ -9,7 +9,7 @@ COPY . /app
 
 RUN npm run build
 
-ENV PORT 80
+ENV PORT 3001
 
 EXPOSE $PORT
 

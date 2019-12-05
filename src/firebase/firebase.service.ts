@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import * as firebase from 'firebase-admin';
 
-const serviceAccountKey = require(`../../environments/${process.env.NODE_ENV}/firebaseKey.json`);
+interface IServiceAccountKey extends firebase.ServiceAccount {
+  project_id?: string;
+}
+
+let serviceAccountKey : IServiceAccountKey = {};
+if( process.env.FIREBASE_SERVICE_ACCOUNT_KEY ) {
+  serviceAccountKey = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+} else {
+  serviceAccountKey = require(`../../environments/${process.env.NODE_ENV}/firebaseKey.json`);
+}
 
 firebase.initializeApp({
   credential: firebase.credential.cert( serviceAccountKey ),
