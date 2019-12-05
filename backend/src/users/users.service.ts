@@ -56,7 +56,7 @@ export class UsersService {
   }
 
   async updateUser( userId, payload ) {
-    const user = await this.find(userId, 'id');
+    const user = await this.findOne(userId, 'id');
     const updatedUsers = {
       [user.id] : {
         ...user,
@@ -73,8 +73,9 @@ export class UsersService {
       }
 
       this.cache[user.id] = updatedUser;
-      
-      return updatedUser;
+
+      const { password, ...returnUser } = updatedUser; 
+      return returnUser;
     } catch (error) {
       throw new InternalServerErrorException('Internal server error, try again in a few moments')
     }
