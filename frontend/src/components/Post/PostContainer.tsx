@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import Post from './Post';
 import { ApplicationState, deletePost, updatePost } from '../../store';
 
-const mapStateToProps = ( { posts } : ApplicationState) => ({
+const mapStateToProps = ( { auth, posts } : ApplicationState) => ({
+  user: auth.user,
   loading: posts.loading,
   error: posts.error,
   posts: posts.data,

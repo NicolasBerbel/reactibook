@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { IPost } from '../../store';
+import { IPost, AuthState } from '../../store';
 import PostActions from './PostActions';
 import PostMedia from './PostMedia';
 import moment from 'moment';
 import ReactMarkdown from 'react-markdown';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -20,6 +20,8 @@ import PrivacySelect from '../PrivacySelect';
 import FriendsIcon from '@material-ui/icons/Group';
 import PublicIcon from '@material-ui/icons/Public';
 import ConfirmDeletion from './ConfirmDeletion';
+import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const privacySettings = {
   friends: {
@@ -53,12 +55,20 @@ const SuccessButton = withStyles(theme => ({
 }))(Button);
 
 export interface PostProps extends IPost {
+  user: AuthState['user'];
   updatePost: Function;
   deletePost: Function;
 }
 
+const useStyles = makeStyles( theme => ({
+  avatar: {
+    backgroundColor: theme.palette.secondary.main
+  }
+}));
+
 export const Post: React.FC<PostProps> = props => {
-  const { deletePost, updatePost } = props;
+  const classes = useStyles();
+  const { deletePost, updatePost, user } = props;
   const [deleteConfirmationOpen, setDeleteConfirmatonOpen] = useState(false);
   const [content, setContent] = useState(props.content);
   const [privacy, setPrivacy] = useState(props.privacy);
@@ -86,11 +96,21 @@ export const Post: React.FC<PostProps> = props => {
     deletePost( props.id );
   }
 
-
   return (
     <>
       <Card elevation={isEditing ? 5 : 2}>
         <CardHeader
+          avatar={user &&
+            <Tooltip title={user.username}>
+              <Avatar
+                variant="rounded"
+                className={classes.avatar}
+                src={user.avatar}
+              >
+                {!user.avatar && user.username.slice(0, 1).toUpperCase()}
+              </Avatar>
+            </Tooltip>
+          }
           action={<PostActions onEdit={() => setIsEditing(true)} onDelete={() => setDeleteConfirmatonOpen(true)} />}
           subheader={(
             <>
